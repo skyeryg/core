@@ -6,6 +6,7 @@ use Apiato\Core\Abstracts\Requests\Request;
 use Apiato\Core\Traits\SanitizerTrait;
 use Dto\Dto;
 use Dto\RegulatorInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -59,7 +60,7 @@ abstract class Transporter extends Dto
      */
     public function getInputByKey($key = null, $default = null)
     {
-        return array_get($this->toArray(), $key, $default);
+        return Arr::get($this->toArray(), $key, $default);
     }
 
     /**

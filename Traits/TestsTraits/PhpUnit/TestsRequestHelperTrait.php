@@ -6,6 +6,7 @@ use App;
 use App\Ship\Exceptions\MissingTestEndpointException;
 use App\Ship\Exceptions\UndefinedMethodException;
 use App\Ship\Exceptions\WrongEndpointFormatException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Vinkla\Hashids\Facades\Hashids;
@@ -269,7 +270,7 @@ trait TestsRequestHelperTrait
      */
     private function headersContainAuthorization($headers)
     {
-        return array_has($headers, 'Authorization');
+        return Arr::has($headers, 'Authorization');
     }
 
     /**
