@@ -74,8 +74,10 @@ trait ResponseTrait
             }
 
             // if we have an object, try to get its resourceKey
-            if ($obj) {
+            if ($obj && method_exists($obj, 'getResourceKey')) {
                 $resourceKey = $obj->getResourceKey();
+            } else {
+                $resourceKey = 'resource';
             }
         }
 
