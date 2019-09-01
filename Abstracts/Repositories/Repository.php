@@ -4,7 +4,7 @@ namespace Apiato\Core\Abstracts\Repositories;
 
 use Illuminate\Support\Facades\Config;
 use Prettus\Repository\Contracts\CacheableInterface as PrettusCacheable;
-use Prettus\Repository\Criteria\RequestCriteria as PrettusRequestCriteria;
+use Apiato\Core\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository as PrettusRepository;
 use Prettus\Repository\Traits\CacheableRepository as PrettusCacheableRepository;
 use Request;
@@ -59,7 +59,7 @@ abstract class Repository extends PrettusRepository implements PrettusCacheable
     {
         // only apply the RequestCriteria if config flag is set!
         if (Config::get('apiato.requests.automatically-apply-request-criteria', true)) {
-            $this->pushCriteria(app(PrettusRequestCriteria::class));
+            $this->pushCriteria(app(RequestCriteria::class));
         }
     }
 

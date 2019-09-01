@@ -4,7 +4,7 @@ namespace Apiato\Core\Traits;
 
 use Apiato\Core\Abstracts\Repositories\Repository;
 use Apiato\Core\Exceptions\CoreInternalErrorException;
-use Prettus\Repository\Criteria\RequestCriteria;
+use Apiato\Core\Criteria\RequestCriteria;
 
 /**
  * Trait HasRequestCriteriaTrait
