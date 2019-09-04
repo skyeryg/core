@@ -67,6 +67,7 @@ class MigrationGenerator extends GeneratorCommand implements ComponentsGenerator
      */
     public $inputs = [
         ['tablename', null, InputOption::VALUE_OPTIONAL, 'The name for the database table'],
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -75,6 +76,7 @@ class MigrationGenerator extends GeneratorCommand implements ComponentsGenerator
     public function getUserInputs()
     {
         $tablename = Str::lower($this->checkParameterOrAsk('tablename', 'Enter the name of the database table'));
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
 
         // now we need to check, if there already exists a "default migration file" for this container!
         // we therefore search for a file that is named "xxxx_xx_xx_xxxxxx_NAME"
@@ -107,7 +109,8 @@ class MigrationGenerator extends GeneratorCommand implements ComponentsGenerator
                 '_container-name' => Str::lower($this->containerName),
                 'container-name' => $this->containerName,
                 'class-name' => Str::studly($this->fileName),
-                'table-name' => $tablename
+                'table-name' => $tablename,
+                'with-softdelete' => $withSoftDelete ? '' : '//',
             ],
             'file-parameters' => [
                 'date' => Carbon::now()->format('Y_m_d_His'),

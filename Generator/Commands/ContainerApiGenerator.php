@@ -69,6 +69,7 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
         ['doctype', null, InputOption::VALUE_OPTIONAL, 'The type of all endpoints to be generated (private, public)'],
         ['url', null, InputOption::VALUE_OPTIONAL, 'The base URI of all endpoints (/stores, /cars, ...)'],
         ['transporters', null, InputOption::VALUE_OPTIONAL, 'Use specific Transporters or rely on the generic DataTransporter'],
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -79,6 +80,8 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
         $ui = 'api';
 
         $useTransporters = $this->checkParameterOrConfirm('transporters', 'Would you like to use specific Transporters?', true);
+
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
 
         // containername as inputted and lower
         $containerName = $this->containerName;
@@ -116,6 +119,7 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
             '--container'   => $containerName,
             '--file'        => $model,
             '--repository'  => true,
+            '--softdelete'   => $withSoftDelete,
         ]);
 
         // create the migration file for the model
@@ -124,6 +128,7 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
             '--container'   => $containerName,
             '--file'        => 'create_' . Str::lower($_containerName) . '_tables',
             '--tablename'   => $models,
+            '--softdelete'   => $withSoftDelete,
         ]);
 
         // create a transformer for the model
@@ -206,6 +211,33 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
             ],
         ];
 
+        if ($withSoftDelete) {
+            $routes = array_merge($routes, [
+                [
+                    'stub'        => 'GetTrashed',
+                    'name'        => 'GetTrashed' . $model,
+                    'operation'   => 'getTrashed' . $model,
+                    'verb'        => 'GET',
+                    'url'         => $url . '/trashed',
+                    'action'      => 'GetTrashed' . $model . 'Action',
+                    'request'     => 'GetTrashed' . $model . 'Request',
+                    'task'        => 'GetTrashed' . $model . 'Task',
+                    'transporter' => 'GetTrashed' . $model . 'Transporter',
+                ],
+                [
+                    'stub'        => 'Restore',
+                    'name'        => 'Restore' . $model,
+                    'operation'   => 'restore' . $model,
+                    'verb'        => 'POST',
+                    'url'         => $url . '/{id}/restore',
+                    'action'      => 'Restore' . $model . 'Action',
+                    'request'     => 'Restore' . $model . 'Request',
+                    'task'        => 'Restore' . $model . 'Task',
+                    'transporter' => 'Restore' . $model . 'Transporter',
+                ],
+            ]);
+        }
+
         foreach ($routes as $route)
         {
             $this->call('apiato:generate:route', [
@@ -244,11 +276,12 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
 
         // finally generate the controller
         $this->printInfoMessage('Generating Controller to wire everything together');
+        $stub = $withSoftDelete ? 'softdelete.' : '';
         $this->call('apiato:generate:controller', [
             '--container'   => $containerName,
             '--file'        => 'Controller',
             '--ui'          => $ui,
-            '--stub'        => 'crud.' . $ui,
+            '--stub'        => $stub . 'crud.' . $ui,
         ]);
 
         $this->printInfoMessage('Generating Composer File');

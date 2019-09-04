@@ -5,6 +5,7 @@ namespace Apiato\Core\Generator\Commands;
 use Apiato\Core\Generator\GeneratorCommand;
 use Apiato\Core\Generator\Interfaces\ComponentsGenerator;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class RepositoryGenerator
@@ -63,6 +64,7 @@ class RepositoryGenerator extends GeneratorCommand implements ComponentsGenerato
      * @var  array
      */
     public $inputs = [
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -70,6 +72,7 @@ class RepositoryGenerator extends GeneratorCommand implements ComponentsGenerato
      */
     public function getUserInputs()
     {
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
         return [
             'path-parameters' => [
                 'container-name' => $this->containerName,
@@ -78,6 +81,7 @@ class RepositoryGenerator extends GeneratorCommand implements ComponentsGenerato
                 '_container-name' => Str::lower($this->containerName),
                 'container-name' => $this->containerName,
                 'class-name' => $this->fileName,
+                'with-softdelete' => $withSoftDelete ? '' : '//',
             ],
             'file-parameters' => [
                 'file-name' => $this->fileName,

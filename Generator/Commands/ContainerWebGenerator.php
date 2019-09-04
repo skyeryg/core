@@ -67,6 +67,7 @@ class ContainerWebGenerator extends GeneratorCommand implements ComponentsGenera
     public $inputs = [
         ['url', null, InputOption::VALUE_OPTIONAL, 'The base URI of all endpoints (/stores, /cars, ...)'],
         ['transporters', null, InputOption::VALUE_OPTIONAL, 'Use specific Transporters or rely on the generic DataTransporter'],
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -77,6 +78,8 @@ class ContainerWebGenerator extends GeneratorCommand implements ComponentsGenera
         $ui = 'web';
 
         $useTransporters = $this->checkParameterOrConfirm('transporters', 'Would you like to use specific Transporters?', true);
+
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
 
         // containername as inputted and lower
         $containerName = $this->containerName;

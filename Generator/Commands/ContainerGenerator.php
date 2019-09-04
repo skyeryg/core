@@ -66,6 +66,7 @@ class ContainerGenerator extends GeneratorCommand implements ComponentsGenerator
     public $inputs = [
         ['ui', null, InputOption::VALUE_OPTIONAL, 'The user-interface to generate the Controller for.'],
         ['transporters', null, InputOption::VALUE_OPTIONAL, 'Use specific Transporters or rely on the generic DataTransporter'],
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -75,7 +76,9 @@ class ContainerGenerator extends GeneratorCommand implements ComponentsGenerator
     {
         $ui = Str::lower($this->checkParameterOrChoice('ui', 'Select the UI for this container', ['API', 'WEB', 'BOTH'], 0));
 
-        $useTransporters = $this->checkParameterOrConfirm('transporters', 'Would you like to use specific Transporters', true);
+        $useTransporters = $this->checkParameterOrConfirm('transporters', 'Would you like to use specific Transporters', false);
+
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
 
         // containername as inputted and lower
         $containerName = $this->containerName;
@@ -86,6 +89,7 @@ class ContainerGenerator extends GeneratorCommand implements ComponentsGenerator
                 '--container'    => $containerName,
                 '--file'         => 'composer',
                 '--transporters' => $useTransporters,
+                '--softdelete'   => $withSoftDelete,
             ]);
         }
 
@@ -94,6 +98,7 @@ class ContainerGenerator extends GeneratorCommand implements ComponentsGenerator
                 '--container'    => $containerName,
                 '--file'         => 'composer',
                 '--transporters' => $useTransporters,
+                '--softdelete'   => $withSoftDelete,
             ]);
         }
 

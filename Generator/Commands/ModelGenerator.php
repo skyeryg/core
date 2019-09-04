@@ -66,6 +66,7 @@ class ModelGenerator extends GeneratorCommand implements ComponentsGenerator
      */
     public $inputs = [
         ['repository', null, InputOption::VALUE_OPTIONAL, 'Generate the corresponding Repository for this Model?'],
+        ['softdelete', null, InputOption::VALUE_OPTIONAL, 'Use SoftDelete model'],
     ];
 
     /**
@@ -74,12 +75,14 @@ class ModelGenerator extends GeneratorCommand implements ComponentsGenerator
     public function getUserInputs()
     {
         $repository = $this->checkParameterOrConfirm('repository', 'Do you want to generate the corresponding Repository for this Model?', true);
+        $withSoftDelete = $this->checkParameterOrConfirm('softdelete', 'Dose the model with SoftDelete', false);
         if($repository) {
             // we need to generate a corresponding repository
             // so call the other command
             $status = $this->call('apiato:generate:repository', [
                 '--container' => $this->containerName,
-                '--file' => $this->fileName . 'Repository'
+                '--file' => $this->fileName . 'Repository',
+                '--softdelete'   => $withSoftDelete,
             ]);
 
             if ($status == 0) {
@@ -99,6 +102,7 @@ class ModelGenerator extends GeneratorCommand implements ComponentsGenerator
                 'container-name' => $this->containerName,
                 'class-name' => $this->fileName,
                 'resource-key' => strtolower(Pluralizer::plural($this->fileName)),
+                'with-softdelete' => $withSoftDelete ? '' : '//',
             ],
             'file-parameters' => [
                 'file-name' => $this->fileName,
