@@ -4,7 +4,7 @@
 namespace Apiato\Core\Traits;
 
 
-trait NestsetRepository
+trait NestedSetRepository
 {
     public function getTree($id = null)
     {
