@@ -215,14 +215,14 @@ class ContainerApiGenerator extends GeneratorCommand implements ComponentsGenera
             $routes = array_merge($routes, [
                 [
                     'stub'        => 'GetTrashed',
-                    'name'        => 'GetTrashed' . $model,
-                    'operation'   => 'getTrashed' . $model,
+                    'name'        => 'GetTrashed' . $models,
+                    'operation'   => 'getTrashed' . $models,
                     'verb'        => 'GET',
                     'url'         => $url . '/trashed',
-                    'action'      => 'GetTrashed' . $model . 'Action',
-                    'request'     => 'GetTrashed' . $model . 'Request',
-                    'task'        => 'GetTrashed' . $model . 'Task',
-                    'transporter' => 'GetTrashed' . $model . 'Transporter',
+                    'action'      => 'GetTrashed' . $models . 'Action',
+                    'request'     => 'GetTrashed' . $models . 'Request',
+                    'task'        => 'GetTrashed' . $models . 'Task',
+                    'transporter' => 'GetTrashed' . $models . 'Transporter',
                 ],
                 [
                     'stub'        => 'Restore',
