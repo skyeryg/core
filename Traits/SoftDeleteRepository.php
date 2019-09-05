@@ -2,7 +2,6 @@
 
 namespace Apiato\Core\Traits;
 
-use Prettus\Repository\Events\RepositoryEntityDeleted;
 
 trait SoftDeleteRepository {
 

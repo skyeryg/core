@@ -14,6 +14,7 @@ use App\Ship\Providers\ShipProvider;
 use Barryvdh\Cors\ServiceProvider as CorsServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
+use Kalnoy\Nestedset\NestedSetServiceProvider;
 use Laravel\Tinker\TinkerServiceProvider;
 use Optimus\Heimdal\Provider\LaravelServiceProvider as HeimdalExceptionsServiceProvider;
 use Prettus\Repository\Providers\RepositoryServiceProvider;
@@ -49,6 +50,7 @@ class ApiatoProvider extends AbstractMainProvider
         CorsServiceProvider::class,
         FractalServiceProvider::class,
         HeimdalExceptionsServiceProvider::class,
+        NestedSetServiceProvider::class,
 
         // add the Laravel Tinker Service Provider
         TinkerServiceProvider::class,
