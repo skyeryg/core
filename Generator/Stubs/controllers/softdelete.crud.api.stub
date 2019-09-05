@@ -6,7 +6,7 @@ use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Create{{mod
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Delete{{model}}Request;
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\GetAll{{models}}Request;
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Find{{model}}ByIdRequest;
-use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\GetTrashed{{model}}Request;
+use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\GetTrashed{{models}}Request;
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Restore{{model}}Request;
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Update{{model}}Request;
 use App\Containers\{{container-name}}\UI\{{user-interface}}\Transformers\{{model}}Transformer;

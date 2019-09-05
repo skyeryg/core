@@ -3,9 +3,12 @@
 namespace App\Containers\{{container-name}}\Models;
 
 use App\Ship\Parents\Models\Model;
+{{with-softdelete}}use Illuminate\Database\Eloquent\SoftDeletes;
 
 class {{class-name}} extends Model
 {
+    {{with-softdelete}}use SoftDeletes;
+
     protected $fillable = [
 
     ];

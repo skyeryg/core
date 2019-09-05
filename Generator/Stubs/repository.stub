@@ -3,12 +3,14 @@
 namespace App\Containers\{{container-name}}\Data\Repositories;
 
 use App\Ship\Parents\Repositories\Repository;
+{{with-softdelete}}use Apiato\Core\Traits\SoftDeleteRepository;
 
 /**
  * Class {{class-name}}
  */
 class {{class-name}} extends Repository
 {
+    {{with-softdelete}}use SoftDeleteRepository;
 
     /**
      * @var array
