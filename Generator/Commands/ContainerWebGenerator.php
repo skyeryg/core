@@ -4,7 +4,6 @@ namespace Apiato\Core\Generator\Commands;
 
 use Apiato\Core\Generator\GeneratorCommand;
 use Apiato\Core\Generator\Interfaces\ComponentsGenerator;
-use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -87,7 +86,7 @@ class ContainerWebGenerator extends GeneratorCommand implements ComponentsGenera
 
         // name of the model (singular and plural)
         $model = $this->containerName;
-        $models = Pluralizer::plural($model);
+        $models = Str::plural($model);
 
         // add the README file
         $this->printInfoMessage('Generating README File');
@@ -124,7 +123,7 @@ class ContainerWebGenerator extends GeneratorCommand implements ComponentsGenera
         $this->call('apiato:generate:migration', [
             '--container'   => $containerName,
             '--file'        => 'create_' . Str::lower($_containerName) . '_tables',
-            '--tablename'   => $models,
+            '--tablename'   => Str::snake($models),
         ]);
 
         // create the default routes for this container
