@@ -7,6 +7,7 @@ namespace Apiato\Core\Generator\Commands;
 use Apiato\Core\Generator\GeneratorCommand;
 use Apiato\Core\Generator\Interfaces\ComponentsGenerator;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Str;
 
 class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
 {
@@ -63,6 +64,7 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
         ['docversion', null, InputOption::VALUE_OPTIONAL, 'The version of all endpoints to be generated (1, 2, ...)'],
         ['doctype', null, InputOption::VALUE_OPTIONAL, 'The type of all endpoints to be generated (private, public)'],
         ['url', null, InputOption::VALUE_OPTIONAL, 'The base URI of all endpoints (/stores, /cars, ...)'],
+        ['transporters', null, InputOption::VALUE_OPTIONAL, 'Use specific Transporters or rely on the generic DataTransporter'],
     ];
 
     /**
@@ -71,6 +73,8 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
     public function getUserInputs()
     {
         $ui = 'api';
+
+        $useTransporters = $this->checkParameterOrConfirm('transporters', 'Would you like to use specific Transporters', false);
 
         // containername as inputted and lower
         $containerName = $this->containerName;
@@ -110,8 +114,9 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
             'url'         => $url,
             'controller'  => 'TreeController',
             'action'      => 'Get' . $models . 'TreeAction',
-            'request'     => 'GetAll' . $models . 'TreeRequest',
-            'task'        => 'GetAll' . $models . 'TreeTask',
+            'request'     => 'Get' . $models . 'TreeRequest',
+            'task'        => 'Get' . $models . 'TreeTask',
+            'transporter' => 'Get' . $models . 'TreeTransporter',
         ];
 
         $this->call('apiato:generate:route', [
@@ -130,6 +135,8 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
             '--container' => $containerName,
             '--file' => $route['request'],
             '--ui' => $ui,
+            '--transporter' => $useTransporters,
+            '--transportername' => $route['transporter'],
         ]);
 
         $this->call('apiato:generate:action', [
@@ -156,19 +163,8 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
         ]);
 
         $this->printInfoMessage('Generating Composer File');
-        return [
-            'path-parameters' => [
-                'container-name' => $containerName,
-            ],
-            'stub-parameters' => [
-                '_container-name' => $_containerName,
-                'container-name' => $containerName,
-                'class-name' => $this->fileName,
-            ],
-            'file-parameters' => [
-                'file-name' => $this->fileName,
-            ],
-        ];
+
+        return null;
     }
 
     /**

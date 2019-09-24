@@ -29,6 +29,7 @@ use Apiato\Core\Generator\Commands\TestTestCaseGenerator;
 use Apiato\Core\Generator\Commands\TestUnitTestGenerator;
 use Apiato\Core\Generator\Commands\TransformerGenerator;
 use Apiato\Core\Generator\Commands\TransporterGenerator;
+use Apiato\Core\Generator\Commands\TreeGenerator;
 use Apiato\Core\Generator\Commands\ValueGenerator;
 use Illuminate\Support\ServiceProvider;
 
@@ -87,6 +88,7 @@ class GeneratorsServiceProvider extends ServiceProvider
             TransformerGenerator::class,
             TransporterGenerator::class,
             ValueGenerator::class,
+            TreeGenerator::class,
         ]);
     }
 
