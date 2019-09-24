@@ -67,6 +67,7 @@ class TransformerGenerator extends GeneratorCommand implements ComponentsGenerat
     public $inputs = [
         ['model', null, InputOption::VALUE_OPTIONAL, 'The model to generate this Transformer for'],
         ['full', null, InputOption::VALUE_OPTIONAL, 'Generate a Transformer with all fields of the model'],
+        ['tree', null, InputOption::VALUE_OPTIONAL, 'Generate a TreeTransformer'],
     ];
 
     /**
@@ -76,6 +77,11 @@ class TransformerGenerator extends GeneratorCommand implements ComponentsGenerat
     {
         $model = $this->checkParameterOrAsk('model', 'Enter the name of the Model to generate this Transformer for');
         $full = $this->checkParameterOrConfirm('full', 'Generate a Transformer with all fields', false);
+        $tree = $this->checkParameterOrConfirm('tree', 'Generate a TreeTransformer', false);
+
+        if ($tree) {
+            $this->stubName = 'treetransformer.stub';
+        }
 
         $attributes = $this->getListOfAllAttributes($full, $model);
 

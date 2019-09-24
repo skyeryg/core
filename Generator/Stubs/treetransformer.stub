@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Containers\{{container-name}}\UI\API\Transformers;
+
+use App\Containers\{{container-name}}\Models\{{model}};
+use App\Ship\Parents\Transformers\Transformer;
+
+class {{class-name}} extends Transformer
+{
+
+    /**
+     * @param {{model}} $entity
+     *
+     * @return array
+     */
+    public function transform({{model}} $entity)
+    {
+
+        $response = [
+            'id' => $entity->id,
+            'name' => $entity->name,
+        ];
+        if (isset($entity['children'])) {
+            foreach ($entity->children as $child) {
+                $response['children'][] = $this->transform($child);
+            }
+        }
+
+        return $response;
+    }
+}

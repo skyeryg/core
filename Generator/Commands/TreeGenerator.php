@@ -91,6 +91,7 @@ class TreeGenerator extends GeneratorCommand implements ComponentsGenerator
             '--file'        => $containerName . 'TreeTransformer',
             '--model'       => $model,
             '--full'        => false,
+            '--tree'        => true,
         ]);
 
         // create the default routes for this container
