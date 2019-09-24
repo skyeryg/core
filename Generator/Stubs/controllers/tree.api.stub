@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Containers\{{container-name}}\UI\{{user-interface}}\Controllers;
+
+use App\Containers\{{container-name}}\UI\{{user-interface}}\Requests\Get{{models}}TreeRequest;
+use App\Containers\{{container-name}}\UI\{{user-interface}}\Transformers\{{model}}TreeTransformer;
+use App\Ship\Parents\Controllers\{{base-controller}};
+use Apiato\Core\Foundation\Facades\Apiato;
+
+/**
+ * Class {{class-name}}
+ *
+ * @package App\Containers\{{container-name}}\UI\{{user-interface}}\Controllers
+ */
+class {{class-name}} extends {{base-controller}}
+{
+
+    /**
+     * @param Get{{models}}TreeRequest $request
+     * @return array
+     */
+    public function get{{models}}Tree(Get{{models}}TreeRequest $request)
+    {
+        ${{entities}} = Apiato::call('{{container-name}}@Get{{models}}TreeAction', [$request]);
+
+        return $this->transform(${{entities}}, {{model}}TreeTransformer::class);
+    }
+}

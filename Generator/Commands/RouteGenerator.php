@@ -65,6 +65,7 @@ class RouteGenerator extends GeneratorCommand implements ComponentsGenerator
      */
     public $inputs = [
         ['ui', null, InputOption::VALUE_OPTIONAL, 'The user-interface to generate the Controller for.'],
+        ['controller', null, InputOption::VALUE_OPTIONAL, 'The Controller to be called (e.g., Controller)'],
         ['operation', null, InputOption::VALUE_OPTIONAL, 'The operation from the Controller to be called (e.g., index)'],
         ['doctype', null, InputOption::VALUE_OPTIONAL, 'The type of the endpoint (private, public)'],
         ['docversion', null, InputOption::VALUE_OPTIONAL, 'The version of the endpoint (1, 2, ...)'],
@@ -80,6 +81,7 @@ class RouteGenerator extends GeneratorCommand implements ComponentsGenerator
         $ui = Str::lower($this->checkParameterOrChoice('ui', 'Select the UI for the controller', ['API', 'WEB'], 0));
         $version = $this->checkParameterOrAsk('docversion', 'Enter the endpoint version (integer)', 1);
         $doctype = $this->checkParameterOrChoice('doctype', 'Select the type for this endpoint', ['private', 'public'], 0);
+        $controller = $this->checkParameterOrAsk('controller', 'Enter the name of the controller that needs to be invoked when calling this endpoint', 'Controller');
         $operation = $this->checkParameterOrAsk('operation', 'Enter the name of the controller function that needs to be invoked when calling this endpoint');
         $verb = Str::upper($this->checkParameterOrAsk('verb', 'Enter the HTTP verb of this endpoint (GET, POST,...)'));
         // get the URI and remove the first trailing slash
@@ -101,6 +103,7 @@ class RouteGenerator extends GeneratorCommand implements ComponentsGenerator
             'stub-parameters' => [
                 '_container-name' => Str::lower($this->containerName),
                 'container-name' => $this->containerName,
+                'controller-name' => $controller,
                 'operation' => $operation,
                 'user-interface' => Str::upper($ui),
                 'endpoint-url' => $url,
