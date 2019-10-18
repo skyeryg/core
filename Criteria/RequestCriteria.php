@@ -37,8 +37,6 @@ class RequestCriteria extends Criteria
         $fieldsSearchable = $repository->getFieldsSearchable();
         $search = $this->request->get(config('repository.criteria.params.search', 'search'), null);
         $orderBy = $this->request->get(config('repository.criteria.params.orderBy', 'orderBy'), null);
-        $sortedBy = $this->request->get(config('repository.criteria.params.sortedBy', 'sortedBy'), 'asc');
-        $sortedBy = !empty($sortedBy) ? $sortedBy : 'asc';
 
         $filter = $this->request->get(config('repository.criteria.params.filter', 'filter'), null);
         $with = $this->request->get(config('repository.criteria.params.with', 'with'), null);
@@ -83,8 +81,10 @@ class RequestCriteria extends Criteria
             });
         }
 
-        if (isset($orderBy) && !empty($orderBy)) {
-            $model = $model->orderBy($orderBy, $sortedBy);
+        if (isset($orderBy) && !empty($orderBy) && Str::startsWith($orderBy, ['+', '-'])) {
+            $sortedBy = Str::startsWith($orderBy, '+') ? 'asc' : 'desc';
+            $column = substr($orderBy, 1);
+            $model = $model->orderBy($column, $sortedBy);
         }
 
         if (isset($filter) && !empty($filter)) {
