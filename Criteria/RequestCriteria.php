@@ -126,10 +126,8 @@ class RequestCriteria extends Criteria
                 if (!key_exists($field, $searchFields)) {
                     continue;
                 }
-                if (!$condition && is_array($searchFields[$field])) {
-                    $condition = 'in';
-                } else {
-                    $condition = '=';
+                if (empty($condition)) {
+                    $condition = is_array($searchFields[$field]) ? 'in' : '=';
                 }
                 if ($condition === 'scope') {
                     $scopes[$field] = $searchFields[$field];
