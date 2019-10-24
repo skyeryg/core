@@ -8,10 +8,19 @@ trait NestedSetRepository
 {
     public function getTree($id = null)
     {
+        $this->applyCriteria();
+        $this->applyScope();
+
         if ($id) {
-            return $this->model->descendantsOf($id)->toTree();
+            $result = $this->model->descendantsOf($id)->toTree();
+        } else {
+            $result = $this->model->get()->toTree();
         }
-        return $this->model->get()->toTree();
+
+        $this->resetModel();
+        $this->resetScope();
+
+        return $this->parserResult($result);
     }
 
 }
