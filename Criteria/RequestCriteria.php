@@ -110,7 +110,7 @@ class RequestCriteria extends Criteria
         if (!is_null($search) && count($search)) {
             $searchFields = [];
             foreach ($search as $field => $value) {
-                $values = explode(',', $value);
+                $values = is_array($value) ? $value : explode(',', $value);
                 if (count($values) == 1) {
                     $searchFields[$field] = $value;
                 } else {
@@ -127,7 +127,11 @@ class RequestCriteria extends Criteria
                     continue;
                 }
                 if (empty($condition)) {
-                    $condition = is_array($searchFields[$field]) ? 'in' : '=';
+                    if (is_array($searchFields[$field])) {
+                        $condition = count($searchFields[$field]) === 2 ? 'between' : 'in';
+                    } else {
+                        $condition = '=';
+                    }
                 }
                 if ($condition === 'scope') {
                     $scopes[$field] = $searchFields[$field];
