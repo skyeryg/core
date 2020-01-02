@@ -133,6 +133,19 @@ class RequestCriteria extends Criteria
                         $condition = '=';
                     }
                 }
+
+                if (is_array($condition)) {
+                    if (is_array($searchFields[$field]) && in_array($searchFields[$field][0], $condition)) {
+                        $condition = $searchFields[$field][0];
+                        array_shift($searchFields[$field]);
+                        if (count($searchFields[$field]) === 1) {
+                            $searchFields[$field] = $searchFields[$field][0];
+                        }
+                    } else {
+                        $condition = $condition[0];
+                    }
+                }
+
                 if ($condition === 'scope') {
                     $scopes[$field] = $searchFields[$field];
                 } else {
