@@ -15,7 +15,7 @@ class RequestCriteria extends Criteria
      * @var Request
      */
     protected $request;
-    protected $wheres = ['in', 'date', 'between'];
+    protected $wheres = ['in', 'notIn', 'between', 'notBetween', 'date', 'month', 'year', 'time'];
 
     public function __construct(Request $request)
     {
